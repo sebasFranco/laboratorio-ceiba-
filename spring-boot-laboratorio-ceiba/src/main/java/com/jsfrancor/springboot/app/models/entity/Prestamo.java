@@ -61,7 +61,7 @@ public class Prestamo {
 		Libro libro = libroDAO.findOne(id);
 
 		if (validarPalindromo()) {
-			throw new GarantiaExtendidaException(EL_PRODUCTO_TIENE_GARANTIA);
+			throw new fechaEntregaMaxima(EL_LIBRO_ES_PALINDROMO);
 		} else if(!sumaNumISBN()){
 			fechaEntregaMaxima = generarFechaPrestamo();
 		}else {
@@ -116,9 +116,13 @@ public class Prestamo {
 	 * 30 - False si es menos de 30
 	 */
 	private boolean sumaNumISBN() {
+		
+		ILibroDao libroDAO = new iLibroDao();
+		Libro libro = libroDAO.findOne(id);
 
+		
 		List<Character> list = new ArrayList<>();
-		for (char ch : this.ISBN.toCharArray()) {
+		for (char ch : libro.getIsbn().toCharArray()) {
 			list.add(ch);
 		}
 
