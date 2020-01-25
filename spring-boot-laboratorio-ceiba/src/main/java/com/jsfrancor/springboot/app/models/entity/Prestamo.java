@@ -20,117 +20,120 @@ import javax.validation.constraints.NotEmpty;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-
 @Entity
 @Table(name = "prestamos")
 public class Prestamo {
-	
+
 	@Id
 	private int id;
-	
+
 	@NotEmpty
 	private String nombrePersona;
-	
+
 	@NotEmpty
 	private String isbnLibro;
-	
+
 	@NotEmpty
 	@Column(name = "fecha_prestamo")
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date fechaPrestamo;
-	
+
 	@Column(name = "fecha_entrega_maxima")
 	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date fechaEntregaMaxima;
 
-	
+	public static final String EL_LIBRO_ES_PALINDROMO = "Los libros palíndromos solo se pueden utilizar en la biblioteca";
+
 	@PrePersist
 	public void prePersist() {
 		fechaPrestamo = new Date();
 	}
-	
-	/*Generar prestamo con validaciones
-	 * Sale True si el libro es palindromo - False si no lo es
-	 * */
+
+	/*
+	 * Generar prestamo con validaciones Sale True si el libro es palindromo - False
+	 * si no lo es
+	 */
 	public void generarPrestamo(Long id, String nombreP) {
 
 		ILibroDao libroDAO = new iLibroDao();
 		Libro libro = libroDAO.findOne(id);
-		
-		if(validarPalindromo()) {
-			
+
+		if (validarPalindromo()) {
+			throw new GarantiaExtendidaException(EL_PRODUCTO_TIENE_GARANTIA);
+		} else if(!sumaNumISBN()){
+			fechaEntregaMaxima = generarFechaPrestamo();
+		}else {
+			fechaEntregaMaxima = null;
 		}
-		
-		
+
 	}
-	
-	/*Genera la fecha de entrega de los libros palindromos
-	 * Entra Fecha de prestamos - Date
-	 * Sale Fecha de entrega - Date
-	 * */
-	private Date generarFechaEntrega () {
-		
+
+	/*
+	 * Genera la fecha de entrega de los libros palindromos Entra Fecha de prestamos
+	 * - Date Sale Fecha de entrega - Date
+	 */
+	private Date generarFechaEntrega() {
+
 		LocalDate fecha = fechaPrestamo.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		
-		for(int i=0; i<15; i++){
-    		if(fecha.getDayOfWeek()== DayOfWeek.SUNDAY){
-    			i--;
-        	}
-    		fecha = fecha.plusDays(1);
-    	}
-		
+
+		for (int i = 0; i < 15; i++) {
+			if (fecha.getDayOfWeek() == DayOfWeek.SUNDAY) {
+				i--;
+			}
+			fecha = fecha.plusDays(1);
+		}
+
 		Date fechaEntrega = Date.from(fecha.atStartOfDay(ZoneId.systemDefault()).toInstant());
-		
-		return fechaEntrega;	
+
+		return fechaEntrega;
 	}
-	
-	
-	
-	/*Valia si el ISBN del libro es palindromo
-	 * Sale True si el libro es palindromo - False si no lo es
-	 * */
+
+	/*
+	 * Valia si el ISBN del libro es palindromo Sale True si el libro es palindromo
+	 * - False si no lo es
+	 */
 	private boolean validarPalindromo() {
-			
+
 		List<Character> list = new ArrayList<>();
-		for (char ch: this.ISBN.toCharArray()) {
+		for (char ch : this.ISBN.toCharArray()) {
 			list.add(ch);
 		}
-		
-		int centro = (int)(list.size()/2);
-		 
+
+		int centro = (int) (list.size() / 2);
+
 		for (int i = 0; i < centro; i++) {
-			if (list.get(i) != list.get(list.size()-i-1)){
+			if (list.get(i) != list.get(list.size() - i - 1)) {
 				return false;
 			}
 		}
 		return true;
 	}
-	
-	/*Valia si el ISBN del libro suma mas de 30
-	 * Sale True si el libro sumas mas de 30 - False si es menos de 30
-	 * */
+
+	/*
+	 * Valia si el ISBN del libro suma mas de 30 Sale True si el libro sumas mas de
+	 * 30 - False si es menos de 30
+	 */
 	private boolean sumaNumISBN() {
-		
+
 		List<Character> list = new ArrayList<>();
-		for (char ch: this.ISBN.toCharArray()) {
+		for (char ch : this.ISBN.toCharArray()) {
 			list.add(ch);
 		}
-		
+
 		int sumaISBN;
-		
+
 		for (int i = 0; i < list.size(); i++) {
-			int c = (int)list.get(i);
-			if (c>48 && c<58){
-				sumaISBN += (c-48);
+			int c = (int) list.get(i);
+			if (c > 48 && c < 58) {
+				sumaISBN += (c - 48);
 			}
 		}
-		return sumaISBN>30;
+		return sumaISBN > 30;
 	}
-	
-	
-	//Get and Setter
+
+	// Get and Setter
 	public int getId() {
 		return id;
 	}
