@@ -2,9 +2,12 @@ package com.jsfrancor.springboot.app.models.entity;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import com.jsfrancor.springboot.app.dao.ILibroDao;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -48,11 +51,28 @@ public class Prestamo {
 		fechaPrestamo = new Date();
 	}
 	
-	/*Genera la fecha de entrega de los libros palindromos
-	 * Entra Fecha de prestamos - LocalDate
-	 * Sale Fecha de entrega - LocalDate
+	/*Generar prestamo con validaciones
+	 * Sale True si el libro es palindromo - False si no lo es
 	 * */
-	public LocalDate generarFechaEntrega (LocalDate fecha) {
+	public void generarPrestamo(Long id, String nombreP) {
+
+		ILibroDao libroDAO = new iLibroDao();
+		Libro libro = libroDAO.findOne(id);
+		
+		if(validarPalindromo()) {
+			
+		}
+		
+		
+	}
+	
+	/*Genera la fecha de entrega de los libros palindromos
+	 * Entra Fecha de prestamos - Date
+	 * Sale Fecha de entrega - Date
+	 * */
+	private Date generarFechaEntrega () {
+		
+		LocalDate fecha = fechaPrestamo.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		
 		for(int i=0; i<15; i++){
     		if(fecha.getDayOfWeek()== DayOfWeek.SUNDAY){
@@ -61,37 +81,40 @@ public class Prestamo {
     		fecha = fecha.plusDays(1);
     	}
 		
-		return fecha;	
+		Date fechaEntrega = Date.from(fecha.atStartOfDay(ZoneId.systemDefault()).toInstant());
+		
+		return fechaEntrega;	
 	}
+	
+	
 	
 	/*Valia si el ISBN del libro es palindromo
 	 * Sale True si el libro es palindromo - False si no lo es
 	 * */
-	public boolean validarPalindromo(String ISBN) {
+	private boolean validarPalindromo() {
 			
 		List<Character> list = new ArrayList<>();
-		for (char ch: ISBN.toCharArray()) {
+		for (char ch: this.ISBN.toCharArray()) {
 			list.add(ch);
 		}
 		
 		int centro = (int)(list.size()/2);
-		
+		 
 		for (int i = 0; i < centro; i++) {
 			if (list.get(i) != list.get(list.size()-i-1)){
 				return false;
 			}
 		}
-		
 		return true;
 	}
 	
 	/*Valia si el ISBN del libro suma mas de 30
 	 * Sale True si el libro sumas mas de 30 - False si es menos de 30
 	 * */
-	public boolean sumaNumISBN(String ISBN) {
+	private boolean sumaNumISBN() {
 		
 		List<Character> list = new ArrayList<>();
-		for (char ch: ISBN.toCharArray()) {
+		for (char ch: this.ISBN.toCharArray()) {
 			list.add(ch);
 		}
 		
