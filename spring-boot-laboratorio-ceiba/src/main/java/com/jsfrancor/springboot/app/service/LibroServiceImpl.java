@@ -33,10 +33,4 @@ public class LibroServiceImpl implements ILibroService{
 		return null;
 	}
 
-//	@Override
-//	@Transactional
-//	public void delete(Long id) {
-//		libroDao.deleteById(id);
-//	}
-
 }

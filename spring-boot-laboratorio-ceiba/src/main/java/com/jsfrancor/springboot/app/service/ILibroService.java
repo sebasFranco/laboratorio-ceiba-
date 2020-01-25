@@ -13,6 +13,5 @@ public interface ILibroService {
 	
 	public Libro findOne(Long id);
 	
-//	public void delete(Long id);
 	
 }

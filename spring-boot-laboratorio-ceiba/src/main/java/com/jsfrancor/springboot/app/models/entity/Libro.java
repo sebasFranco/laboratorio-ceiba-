@@ -1,6 +1,8 @@
 package com.jsfrancor.springboot.app.models.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -12,6 +14,7 @@ import org.hibernate.validator.constraints.UniqueElements;
 public class Libro {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
 	@UniqueElements
