@@ -1,6 +1,10 @@
 package com.jsfrancor.springboot.app.models.entity;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -44,6 +48,66 @@ public class Prestamo {
 		fechaPrestamo = new Date();
 	}
 	
+	/*Genera la fecha de entrega de los libros palindromos
+	 * Entra Fecha de prestamos - LocalDate
+	 * Sale Fecha de entrega - LocalDate
+	 * */
+	public LocalDate generarFechaEntrega (LocalDate fecha) {
+		
+		for(int i=0; i<15; i++){
+    		if(fecha.getDayOfWeek()== DayOfWeek.SUNDAY){
+    			i--;
+        	}
+    		fecha = fecha.plusDays(1);
+    	}
+		
+		return fecha;	
+	}
+	
+	/*Valia si el ISBN del libro es palindromo
+	 * Sale True si el libro es palindromo - False si no lo es
+	 * */
+	public boolean validarPalindromo(String ISBN) {
+			
+		List<Character> list = new ArrayList<>();
+		for (char ch: ISBN.toCharArray()) {
+			list.add(ch);
+		}
+		
+		int centro = (int)(list.size()/2);
+		
+		for (int i = 0; i < centro; i++) {
+			if (list.get(i) != list.get(list.size()-i-1)){
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
+	/*Valia si el ISBN del libro suma mas de 30
+	 * Sale True si el libro sumas mas de 30 - False si es menos de 30
+	 * */
+	public boolean sumaNumISBN(String ISBN) {
+		
+		List<Character> list = new ArrayList<>();
+		for (char ch: ISBN.toCharArray()) {
+			list.add(ch);
+		}
+		
+		int sumaISBN;
+		
+		for (int i = 0; i < list.size(); i++) {
+			int c = (int)list.get(i);
+			if (c>48 && c<58){
+				sumaISBN += (c-48);
+			}
+		}
+		return sumaISBN>30;
+	}
+	
+	
+	//Get and Setter
 	public int getId() {
 		return id;
 	}
