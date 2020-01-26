@@ -52,27 +52,29 @@ public class Prestamo {
 	}
 
 	/*
-	 * Generar prestamo con validaciones Sale True si el libro es palindromo - False
-	 * si no lo es
+	 * Generar prestamo con validaciones 
+	 * 
 	 */
 	public void generarPrestamo(Long id, String nombreP) {
-
+		
+		prePersist();
+		
 		ILibroDao libroDAO = new iLibroDao();
 		Libro libro = libroDAO.findOne(id);
 
 		if (validarPalindromo()) {
 			throw new fechaEntregaMaxima(EL_LIBRO_ES_PALINDROMO);
-		} else if(!sumaNumISBN()){
+		} else if(!sumaNumISBN(libro)){
 			fechaEntregaMaxima = generarFechaPrestamo();
 		}else {
 			fechaEntregaMaxima = null;
 		}
-
 	}
 
 	/*
-	 * Genera la fecha de entrega de los libros palindromos Entra Fecha de prestamos
-	 * - Date Sale Fecha de entrega - Date
+	 * Genera la fecha de entrega de los libros palindromos 
+	 * Entra Fecha de prestamos- Date 
+	 * Sale Fecha de entrega - Date
 	 */
 	private Date generarFechaEntrega() {
 
@@ -91,7 +93,8 @@ public class Prestamo {
 	}
 
 	/*
-	 * Valia si el ISBN del libro es palindromo Sale True si el libro es palindromo
+	 * Valida si el ISBN del libro es palindromo 
+	 * Sale True si el libro es palindromo
 	 * - False si no lo es
 	 */
 	private boolean validarPalindromo() {
@@ -115,11 +118,7 @@ public class Prestamo {
 	 * Valia si el ISBN del libro suma mas de 30 Sale True si el libro sumas mas de
 	 * 30 - False si es menos de 30
 	 */
-	private boolean sumaNumISBN() {
-		
-		ILibroDao libroDAO = new iLibroDao();
-		Libro libro = libroDAO.findOne(id);
-
+	private boolean sumaNumISBN(Libro libro) {
 		
 		List<Character> list = new ArrayList<>();
 		for (char ch : libro.getIsbn().toCharArray()) {
@@ -134,7 +133,7 @@ public class Prestamo {
 				sumaISBN += (c - 48);
 			}
 		}
-		return sumaISBN > 30;
+		return (sumaISBN > 30);
 	}
 
 	// Get and Setter
