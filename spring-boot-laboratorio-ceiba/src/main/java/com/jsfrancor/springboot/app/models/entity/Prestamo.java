@@ -1,5 +1,6 @@
 package com.jsfrancor.springboot.app.models.entity;
 
+import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -12,6 +13,8 @@ import com.jsfrancor.springboot.app.excepciones.ExcepcionPrestamo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
@@ -23,9 +26,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "prestamos")
-public class Prestamo {
+public class Prestamo implements Serializable{
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
 	@NotEmpty
@@ -34,7 +38,6 @@ public class Prestamo {
 	@NotEmpty
 	private String isbnLibro;
 
-	@NotEmpty
 	@Column(name = "fecha_prestamo")
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -45,6 +48,8 @@ public class Prestamo {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date fechaEntregaMaxima;
 
+	private static final long serialVersionUID = 1L;
+	
 	public static final String EL_LIBRO_ES_PALINDROMO = "Los libros palíndromos solo se pueden utilizar en la biblioteca";
 
 	@PrePersist
@@ -56,7 +61,7 @@ public class Prestamo {
 	 * Generar prestamo con validaciones 
 	 * 
 	 */
-	public void generarPrestamo(Libro libro, String nombreP) {
+	public void generarPrestamo(Libro libro) {
 
 		if (validarPalindromoStream(libro.getIsbn())) {
 			throw new ExcepcionPrestamo(EL_LIBRO_ES_PALINDROMO);

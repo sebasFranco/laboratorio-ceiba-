@@ -1,5 +1,8 @@
 package com.jsfrancor.springboot.app.controllers;
 
+import java.util.Date;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,8 @@ public class PrestamoController {
 
 	@Autowired
 	private IPrestamoService prestamoService;
+	
+	@Autowired
 	private ILibroService libroService;
 	
 	@GetMapping("/listarPrestamos")
@@ -34,7 +39,7 @@ public class PrestamoController {
 	}
 	
 	@RequestMapping(value = "/crear_prestamo/{id}")
-	public String crear(@PathVariable(value = "di") Long id,  Model model, RedirectAttributes flash) {
+	public String crear(@PathVariable(value = "id") Long id,  Model model, RedirectAttributes flash) {
 		
 		Libro libro = null;
 		
@@ -51,6 +56,8 @@ public class PrestamoController {
 		
 		Prestamo prestamo = new Prestamo();
 		prestamo.setIsbnLibro(libro.getIsbn());
+		prestamo.setFechaPrestamo(new Date());
+//		prestamo.generarPrestamo(libro);
 		model.addAttribute("titulo", "Crear Prestamo");
 		model.addAttribute("prestamo", prestamo);
 		return "crear_prestamo";
@@ -62,6 +69,15 @@ public class PrestamoController {
 		if(result.hasErrors()) {
 			model.addAttribute("titulo", "Crear Prestamo");
 			return "crear_prestamo";
+		}
+		
+		List<Libro> libros = libroService.findAll();
+		
+		for(Libro libro1 : libros) {
+			if(libro1.getIsbn().equals(prestamo.getIsbnLibro())) {
+				libro1.setCantidad(libro1.getCantidad()-1);
+				libroService.save(libro1);
+			}
 		}
 		
 		prestamoService.save(prestamo);
