@@ -55,7 +55,7 @@ public class Prestamo {
 	 * Generar prestamo con validaciones 
 	 * 
 	 */
-	public void generarPrestamo(Libro libro, String nombreP) {
+	public Prestamo generarPrestamo(Libro libro, String nombreP) {
 
 		if (validarPalindromo(libro.getIsbn())) {
 			throw new ExcepcionPrestamo(EL_LIBRO_ES_PALINDROMO);
@@ -63,7 +63,8 @@ public class Prestamo {
 			fechaEntregaMaxima = generarFechaEntrega();
 		}else {
 			fechaEntregaMaxima = null;
-		}
+		}	
+		return this;
 	}
 
 	/*
