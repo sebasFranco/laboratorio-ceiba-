@@ -58,7 +58,7 @@ public class PrestamoTest {
 		// arrange
 		Prestamo prestamo = new Prestamo();
 		
-		LocalDate fechaPrestamo = LocalDate.of(2071, 05, 24);
+		LocalDate fechaPrestamo = LocalDate.of(2017, 05, 24);
 		Date fechaPrestamoDate = Date.from(fechaPrestamo.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		prestamo.setFechaPrestamo(fechaPrestamoDate);
 		
@@ -69,6 +69,78 @@ public class PrestamoTest {
 
 		// assert
 		assertEquals(fechaEntregaDate, fechaRetornada);
+
+	}
+	
+	@Test
+	public void isbnEsPalindromoPar() {
+		
+		// arrange
+		LibroTestDataBuilder libroTestDataBuilder = new LibroTestDataBuilder().conIsbn("1991");
+		Libro libro = libroTestDataBuilder.build();
+		
+		Prestamo prestamo = new Prestamo();
+		prestamo.setIsbnLibro(libro.getIsbn());
+		
+		// act
+		boolean esPalindromo = prestamo.validarPalindromoStream();
+
+		// assert
+		assertTrue(esPalindromo);
+
+	}
+	
+	@Test
+	public void isbnNoEsPalindromoPar() {
+		
+		// arrange
+		LibroTestDataBuilder libroTestDataBuilder = new LibroTestDataBuilder().conIsbn("9189");
+		Libro libro = libroTestDataBuilder.build();
+		
+		Prestamo prestamo = new Prestamo();
+		prestamo.setIsbnLibro(libro.getIsbn());
+		
+		// act
+		boolean esPalindromo = prestamo.validarPalindromoStream();
+
+		// assert
+		assertFalse(esPalindromo);
+
+	}
+	
+	@Test
+	public void isbnEsPalindromoImpar() {
+		
+		// arrange
+		LibroTestDataBuilder libroTestDataBuilder = new LibroTestDataBuilder().conIsbn("12321");
+		Libro libro = libroTestDataBuilder.build();
+		
+		Prestamo prestamo = new Prestamo();
+		prestamo.setIsbnLibro(libro.getIsbn());
+		
+		// act
+		boolean esPalindromo = prestamo.validarPalindromoStream();
+
+		// assert
+		assertTrue(esPalindromo);
+
+	}
+	
+	@Test
+	public void isbnNoEsPalindromoImpar() {
+		
+		// arrange
+		LibroTestDataBuilder libroTestDataBuilder = new LibroTestDataBuilder().conIsbn("12321");
+		Libro libro = libroTestDataBuilder.build();
+		
+		Prestamo prestamo = new Prestamo();
+		prestamo.setIsbnLibro(libro.getIsbn());
+		
+		// act
+		boolean esPalindromo = prestamo.validarPalindromoStream();
+
+		// assert
+		assertFalse(esPalindromo);
 
 	}
 }

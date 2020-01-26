@@ -58,7 +58,7 @@ public class Prestamo {
 	 */
 	public void generarPrestamo() {
 
-		if (validarPalindromoStream(isbnLibro)) {
+		if (validarPalindromoStream()) {
 			throw new ExcepcionPrestamo(EL_LIBRO_ES_PALINDROMO);
 		} else if(!sumaNumISBN()){
 			fechaEntregaMaxima = generarFechaEntrega();
@@ -94,9 +94,9 @@ public class Prestamo {
 	 * @param isbn codigo ISBN del libro
 	 * @return valor obtenido de la validacion, sera true si es palindromo
 	 */
-	public boolean validarPalindromoStream(String isbn) {
+	public boolean validarPalindromoStream() {
 		Function<String, String> reverse = s -> new StringBuilder(s).reverse().toString();
-		return (0 == (reverse.apply(isbn).compareTo(isbn)));
+		return (0 == (reverse.apply(isbnLibro).compareTo(isbnLibro)));
 	}
 
 	/*
