@@ -58,7 +58,7 @@ public class PrestamoController {
 		prestamo.setIsbnLibro(libro.getIsbn());
 		prestamo.setFechaPrestamo(new Date());
 		if (prestamo.validarPalindromoStream()) {
-			flash.addFlashAttribute("error", "El ID del libro no puede ser 0");
+			flash.addFlashAttribute("error", "Los libros palíndromos solo se pueden utilizar en la biblioteca");
 			return "redirect:/listar";
 		} else {
 			prestamo.generarPrestamo();

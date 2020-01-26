@@ -9,7 +9,7 @@ import com.jsfrancor.springboot.app.testdatabuilder.LibroTestDataBuilder;
 
 public class LibroTest {
 	
-	private static final long ID= 2;
+	private static final Long ID= 2L;
 	private static final String ISBN = "12321";
 	private static final String NOMBRE = "Caperucita";
 	private static final int CANTIDAD = 1;
