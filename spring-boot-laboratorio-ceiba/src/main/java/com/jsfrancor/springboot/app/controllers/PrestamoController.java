@@ -57,7 +57,7 @@ public class PrestamoController {
 		Prestamo prestamo = new Prestamo();
 		prestamo.setIsbnLibro(libro.getIsbn());
 		prestamo.setFechaPrestamo(new Date());
-//		prestamo.generarPrestamo(libro);
+//		prestamo.generarPrestamo();
 		model.addAttribute("titulo", "Crear Prestamo");
 		model.addAttribute("prestamo", prestamo);
 		return "crear_prestamo";
