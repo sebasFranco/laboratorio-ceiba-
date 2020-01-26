@@ -55,16 +55,15 @@ public class Prestamo {
 	 * Generar prestamo con validaciones 
 	 * 
 	 */
-	public Prestamo generarPrestamo(Libro libro, String nombreP) {
+	public void generarPrestamo(Libro libro, String nombreP) {
 
-		if (validarPalindromo(libro.getIsbn())) {
+		if (validarPalindromoStream(libro.getIsbn())) {
 			throw new ExcepcionPrestamo(EL_LIBRO_ES_PALINDROMO);
 		} else if(!sumaNumISBN(libro)){
 			fechaEntregaMaxima = generarFechaEntrega();
 		}else {
 			fechaEntregaMaxima = null;
-		}	
-		return this;
+		}
 	}
 
 	/*
@@ -108,6 +107,17 @@ public class Prestamo {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 *  Valida si el ISBN del libro es palindromo
+	 *
+	 * @param isbn codigo ISBN del libro
+	 * @return valor obtenido de la validacion, sera true si es palindromo
+	 */
+	private boolean validarPalindromoStream(String isbn) {
+		Function<String, String> reverse = s -> new StringBuilder(s).reverse().toString();
+		return 0 == reverse.apply(isbn).compareTo(isbn);
 	}
 
 	/*
