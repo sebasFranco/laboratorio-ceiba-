@@ -57,10 +57,16 @@ public class PrestamoController {
 		Prestamo prestamo = new Prestamo();
 		prestamo.setIsbnLibro(libro.getIsbn());
 		prestamo.setFechaPrestamo(new Date());
-//		prestamo.generarPrestamo();
-		model.addAttribute("titulo", "Crear Prestamo");
-		model.addAttribute("prestamo", prestamo);
-		return "crear_prestamo";
+		if (prestamo.validarPalindromoStream()) {
+			flash.addFlashAttribute("error", "El ID del libro no puede ser 0");
+			return "redirect:/listar";
+		} else {
+			prestamo.generarPrestamo();
+			model.addAttribute("titulo", "Crear Prestamo");
+			model.addAttribute("prestamo", prestamo);
+			return "crear_prestamo";
+		}
+		
 	}
 	
 	@RequestMapping(value = "/crear_prestamo", method = RequestMethod.POST)
