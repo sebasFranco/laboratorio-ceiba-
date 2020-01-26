@@ -31,8 +31,7 @@ public class LibroServiceImpl implements ILibroService{
 	@Override
 	@Transactional
 	public Libro findOne(Long id) {
-		libroDao.findById(id);
-		return null;
+		return libroDao.findById(id).orElse(null);
 	}
 
 }
