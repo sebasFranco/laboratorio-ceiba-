@@ -39,7 +39,9 @@ public class Libro implements Serializable{
 		this.cantidad = cantidad;
 	}
 
-	public long getId() {
+	
+
+	public Long getId() {
 		return id;
 	}
 
