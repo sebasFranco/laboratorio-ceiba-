@@ -29,6 +29,15 @@ public class Libro implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
+	
+	
+	public Libro(Long id, @NotEmpty String isbn, @NotEmpty String nombre, int cantidad) {
+		this.id = id;
+		this.isbn = isbn;
+		this.nombre = nombre;
+		this.cantidad = cantidad;
+	}
+
 	public long getId() {
 		return id;
 	}

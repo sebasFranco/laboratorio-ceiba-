@@ -92,7 +92,7 @@ public class Prestamo {
 	 * Valida si el ISBN del libro es palindromo 
 	 * Sale True si el libro es palindromo
 	 * - False si no lo es
-	 */
+	 
 	private boolean validarPalindromo(String isbn) {
 
 		List<Character> list = new ArrayList<>();
@@ -109,7 +109,7 @@ public class Prestamo {
 		}
 		return true;
 	}
-
+	 */
 	/**
 	 *  Valida si el ISBN del libro es palindromo
 	 *
