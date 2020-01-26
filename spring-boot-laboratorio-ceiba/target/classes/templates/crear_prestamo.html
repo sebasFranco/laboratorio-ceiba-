@@ -8,6 +8,7 @@
     <div class="card bg-dark text-white">
         <div class="card-header" th:text="${titulo}"></div>
         <div class="card-body">
+<<<<<<< HEAD
 
             <form th:action="@{/crear_prestamo}" th:object="${prestamo}" method="post">
                 
@@ -29,6 +30,33 @@
 				
                 <div class="form-group row">
                     <input type="submit" value="Crear prestamo" class="btn btn-secondary"/>
+=======
+            <div th:object="${libro}" th:remove="tag">
+                <ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                    <li th:each="err: ${#fields.errors('*')}" th:text=${err}></li>
+                </ul>
+            </div>
+
+            <form th:action="@{/crear_libro}" th:object="${libro}" method="post">
+                <div class="form-group row">
+                    <label class="col-sm-6 col-form-label">ISBN</label>
+                    <label class="col-sm-6 col-form-label">Nombre del libro</label>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-6 col-form-label" th:text="*{isbn}"></label>
+                    <label class="col-sm-6 col-form-label" th:text="*{nombre}"></label>
+                </div>
+                <div class="form-group row">
+
+                    <div class="col-sm-6">
+                        <a class="btn btn-danger" th:href="@{/eliminar/} + ${libro.id}" th:text="'Aceptar'" onclick="return confirm('Estas seguro que quieres eliminar?');"></a>
+                        <a class="btn btn-danger" th:href="@{/eliminar/} + ${libro.id}" th:text="'Aceptar'" onclick="return confirm('Estas seguro que quieres eliminar?');"></a>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <input type="submit" value="Crear Libro" class="btn btn-secondary"/>
+>>>>>>> 81ac4a221249ddf1b4ce71d860c3a2206f30f879
                 </div>
             </form>
         </div>
