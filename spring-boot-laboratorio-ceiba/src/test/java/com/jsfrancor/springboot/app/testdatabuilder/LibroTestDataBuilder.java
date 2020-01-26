@@ -1,5 +1,6 @@
 package com.jsfrancor.springboot.app.testdatabuilder;
 
+import com.jsfrancor.springboot.app.models.entity.Libro;
 
 public class LibroTestDataBuilder {
 	
@@ -39,5 +40,9 @@ public class LibroTestDataBuilder {
 	public LibroTestDataBuilder conCantidad(int cantidad) {
 		this.cantidad=cantidad;
 		return this;
+	}
+	
+	public Libro build() {
+		return new Libro(this.id, this.isbn, this.nombre,this.cantidad);
 	}
 }

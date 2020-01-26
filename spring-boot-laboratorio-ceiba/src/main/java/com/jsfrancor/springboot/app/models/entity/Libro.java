@@ -1,5 +1,7 @@
 package com.jsfrancor.springboot.app.models.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,22 +13,31 @@ import org.hibernate.validator.constraints.UniqueElements;
 
 @Entity
 @Table(name = "libros")
-public class Libro {
+public class Libro implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	
-	@UniqueElements
+	@NotEmpty
 	private String isbn;
 	
 	@NotEmpty
 	private String nombre;
 	
-	@NotEmpty
 	private int cantidad;
 
+	private static final long serialVersionUID = 1L;
 	
+	
+	
+	public Libro(Long id, @NotEmpty String isbn, @NotEmpty String nombre, int cantidad) {
+		this.id = id;
+		this.isbn = isbn;
+		this.nombre = nombre;
+		this.cantidad = cantidad;
+	}
+
 	public long getId() {
 		return id;
 	}

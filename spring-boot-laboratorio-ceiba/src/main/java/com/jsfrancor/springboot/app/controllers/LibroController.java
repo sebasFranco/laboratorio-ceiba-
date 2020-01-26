@@ -1,9 +1,10 @@
 package com.jsfrancor.springboot.app.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -44,31 +45,53 @@ public class LibroController {
 	@RequestMapping(value = "/crear_libro", method = RequestMethod.POST)
 	public String guardar(@Valid Libro libro, BindingResult result, Model model) {
 		
+		boolean existe=false;
+		
 		if(result.hasErrors()) {
 			model.addAttribute("titulo", "Crear Libro");
 			return "crear_libro";
 		}
 		
-		libroService.save(libro);
-		return "redirect:listar";
+		List<Libro> libros = libroService.findAll();
+		
+		for(Libro libro1 : libros) {
+			if(libro1.getIsbn().equals(libro.getIsbn())) {
+				libro1.setCantidad(libro1.getCantidad()+1);
+				libroService.save(libro1);
+				existe = true;
+			}else {
+				libro.setCantidad(1);
+			}
+		}
+		
+		if(existe) {
+			return "redirect:listar";
+		}else {
+			libroService.save(libro);
+			return "redirect:listar";
+		}
+		
 	}
 	
-
 	@RequestMapping(value = "/eliminar/{id}")
-	public String eliminar(@PathVariable(value = "id") Long id, RedirectAttributes flash) {
+	public String eliminar(@PathVariable(value="id") Long id, Model model, RedirectAttributes flash) {
 		
-		Libro libro = libroService.findOne(id); 
-		
-		if(libro.getCantidad() > 0) {
-			libro.setCantidad(libro.getCantidad() -1 );
-		}
+		Libro libro = null;
 		
 		if(id>0) {
-			libroService.save(libro);
+			libro = libroService.findOne(id);
+			if(libro == null) {
+				flash.addFlashAttribute("error", "El ID del libro no existe en la base de datos");
+				return "redirect:/listar";
+			}
+		}else {
+			flash.addFlashAttribute("error", "El ID del libro no puede ser 0");
+			return "redirect:/listar";
 		}
-		flash.addFlashAttribute("success", "Libro eliminado con exito");
+		
+		model.addAttribute("titulo", "Crear Libro");
+		libro.setCantidad(libro.getCantidad()-1);
+		libroService.save(libro);
 		return "redirect:/listar";
-	}
-	
-	
+	}	
 }
