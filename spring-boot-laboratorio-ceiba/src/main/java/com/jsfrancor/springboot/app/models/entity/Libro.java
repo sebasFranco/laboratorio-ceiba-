@@ -29,7 +29,9 @@ public class Libro implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	
+	public Libro(){
+
+	}
 	
 	public Libro(Long id, @NotEmpty String isbn, @NotEmpty String nombre, int cantidad) {
 		this.id = id;
