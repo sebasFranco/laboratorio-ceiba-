@@ -96,7 +96,7 @@ public class Prestamo {
 	 */
 	public boolean validarPalindromoStream(String isbn) {
 		Function<String, String> reverse = s -> new StringBuilder(s).reverse().toString();
-		return 0 == reverse.apply(isbn).compareTo(isbn);
+		return (0 == (reverse.apply(isbn).compareTo(isbn)));
 	}
 
 	/*
