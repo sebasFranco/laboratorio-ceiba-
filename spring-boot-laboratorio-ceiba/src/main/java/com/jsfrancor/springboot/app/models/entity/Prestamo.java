@@ -76,14 +76,17 @@ public class Prestamo implements Serializable{
 
 	/*
 	 * Genera la fecha de entrega de los libros palindromos 
-	 * Entra Fecha de prestamos- Date 
-	 * Sale Fecha de entrega - Date
+	 * @return fecha Date de entrega del libro
 	 */
 	public Date generarFechaEntrega() {
 
 		LocalDate fecha = fechaPrestamo.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-
-		for (int i = 0; i < 15; i++) {
+		
+		if(fecha.getDayOfWeek()==DayOfWeek.SUNDAY){
+			fecha = fecha.plusDays(1);
+    	}
+		
+		for (int i = 0; i < 14; i++) {
 			if (fecha.getDayOfWeek() == DayOfWeek.SUNDAY) {
 				i--;
 			}

@@ -62,13 +62,14 @@ public class PrestamoTest {
 		Date fechaPrestamoDate = Date.from(fechaPrestamo.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		prestamo.setFechaPrestamo(fechaPrestamoDate);
 		
-		LocalDate fechaEntrega = LocalDate.of(2071, 05, 24);
+		LocalDate fechaEntrega = LocalDate.of(2017, 06, 9);
 		Date fechaEntregaDate = Date.from(fechaEntrega.atStartOfDay(ZoneId.systemDefault()).toInstant());
 		// act
 		Date fechaRetornada = prestamo.generarFechaEntrega();
-
+		System.out.println(fechaRetornada);
+		System.out.println(fechaEntregaDate);
 		// assert
-		assertEquals(fechaEntregaDate, fechaRetornada);
+		assertEquals(fechaRetornada, fechaEntregaDate);
 
 	}
 	
@@ -130,7 +131,7 @@ public class PrestamoTest {
 	public void isbnNoEsPalindromoImpar() {
 		
 		// arrange
-		LibroTestDataBuilder libroTestDataBuilder = new LibroTestDataBuilder().conIsbn("12321");
+		LibroTestDataBuilder libroTestDataBuilder = new LibroTestDataBuilder().conIsbn("14321");
 		Libro libro = libroTestDataBuilder.build();
 		
 		Prestamo prestamo = new Prestamo();
