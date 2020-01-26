@@ -152,11 +152,11 @@ public class Prestamo {
 	}
 
 	public String getIsbnLibro() {
-		return isbnLibro;
+		return isbn;
 	}
 
 	public void setIsbnLibro(String isbnLibro) {
-		this.isbnLibro = isbnLibro;
+		this.isbn = isbnLibro;
 	}
 
 	public Date getFechaPrestamo() {
