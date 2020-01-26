@@ -24,9 +24,10 @@ public class PrestamoTest {
 		Libro libro = libroTestDataBuilder.build();
 		
 		Prestamo prestamo = new Prestamo();
+		prestamo.setIsbnLibro(libro.getIsbn());
 		
 		// act
-		boolean tieneMasDe30 = prestamo.sumaNumISBN(libro);
+		boolean tieneMasDe30 = prestamo.sumaNumISBN();
 
 		// assert
 		assertTrue(tieneMasDe30);
@@ -41,9 +42,10 @@ public class PrestamoTest {
 		Libro libro = libroTestDataBuilder.build();
 		
 		Prestamo prestamo = new Prestamo();
+		prestamo.setIsbnLibro(libro.getIsbn());
 		
 		// act
-		boolean tieneMenosDe30 = prestamo.sumaNumISBN(libro);
+		boolean tieneMenosDe30 = prestamo.sumaNumISBN();
 
 		// assert
 		assertFalse(tieneMenosDe30);

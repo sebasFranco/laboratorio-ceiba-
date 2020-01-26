@@ -56,11 +56,11 @@ public class Prestamo {
 	 * Generar prestamo con validaciones 
 	 * 
 	 */
-	public void generarPrestamo(Libro libro, String nombreP) {
+	public void generarPrestamo() {
 
-		if (validarPalindromoStream(libro.getIsbn())) {
+		if (validarPalindromoStream(isbnLibro)) {
 			throw new ExcepcionPrestamo(EL_LIBRO_ES_PALINDROMO);
-		} else if(!sumaNumISBN(libro)){
+		} else if(!sumaNumISBN()){
 			fechaEntregaMaxima = generarFechaEntrega();
 		}else {
 			fechaEntregaMaxima = null;
@@ -88,28 +88,6 @@ public class Prestamo {
 		return fechaEntrega;
 	}
 
-	/*
-	 * Valida si el ISBN del libro es palindromo 
-	 * Sale True si el libro es palindromo
-	 * - False si no lo es
-	 
-	private boolean validarPalindromo(String isbn) {
-
-		List<Character> list = new ArrayList<>();
-		for (char ch : isbn.toCharArray()) {
-			list.add(ch);
-		}
-
-		int centro = (int) (list.size() / 2);
-
-		for (int i = 0; i < centro; i++) {
-			if (list.get(i) != list.get(list.size() - i - 1)) {
-				return false;
-			}
-		}
-		return true;
-	}
-	 */
 	/**
 	 *  Valida si el ISBN del libro es palindromo
 	 *
@@ -125,10 +103,10 @@ public class Prestamo {
 	 * Valia si el ISBN del libro suma mas de 30 Sale True si el libro sumas mas de
 	 * 30 - False si es menos de 30
 	 */
-	public boolean sumaNumISBN(Libro libro) {
+	public boolean sumaNumISBN(){
 		
 		List<Character> list = new ArrayList<>();
-		for (char ch : libro.getIsbn().toCharArray()) {
+		for (char ch : isbnLibro.toCharArray()) {
 			list.add(ch);
 		}
 
