@@ -72,7 +72,7 @@ public class Prestamo {
 	 * Entra Fecha de prestamos- Date 
 	 * Sale Fecha de entrega - Date
 	 */
-	private Date generarFechaEntrega() {
+	public Date generarFechaEntrega() {
 
 		LocalDate fecha = fechaPrestamo.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
@@ -116,7 +116,7 @@ public class Prestamo {
 	 * @param isbn codigo ISBN del libro
 	 * @return valor obtenido de la validacion, sera true si es palindromo
 	 */
-	private boolean validarPalindromoStream(String isbn) {
+	public boolean validarPalindromoStream(String isbn) {
 		Function<String, String> reverse = s -> new StringBuilder(s).reverse().toString();
 		return 0 == reverse.apply(isbn).compareTo(isbn);
 	}
@@ -125,7 +125,7 @@ public class Prestamo {
 	 * Valia si el ISBN del libro suma mas de 30 Sale True si el libro sumas mas de
 	 * 30 - False si es menos de 30
 	 */
-	private boolean sumaNumISBN(Libro libro) {
+	public boolean sumaNumISBN(Libro libro) {
 		
 		List<Character> list = new ArrayList<>();
 		for (char ch : libro.getIsbn().toCharArray()) {
