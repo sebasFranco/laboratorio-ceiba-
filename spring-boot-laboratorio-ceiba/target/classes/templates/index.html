@@ -5,9 +5,8 @@
 
 <header th:replace="layout/layout :: header"></header>
 
-<h1 th:text="${titulo}" class="py-4"></h1>
-
-<div style="
+<div class="container py-4">
+	<div style="
         width: 30vw !important;
         display: flex !important;
         justify-content: center;" class="cover-container">
@@ -15,12 +14,14 @@
         <main role="main" class="inner cover font">
             <h1 class="cover-heading">Ceiba Books.</h1>
             <p class="lead">La biblioteca mas fascinante de libros del mundo</p>
-<!--             <p class="lead"> -->
+            <p class="lead">
                 <a th:href="@{/listar}" class="btn btn-lg btn-secondary">Listado de libros</a>
-<!--             </p> -->
+            </p><p class="lead">
+                <a th:href="@{/listarPrestamos}" class="btn btn-lg btn-secondary">Listado de libros Prestados</a>
+            </p>
         </main>
     </div>
-
+</div>
 <footer th:replace="layout/layout :: footer"></footer>
 
 </body>

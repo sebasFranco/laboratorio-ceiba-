@@ -3,25 +3,29 @@ package com.jsfrancor.springboot.app.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.jsfrancor.springboot.app.models.entity.Prestamo;
 import com.jsfrancor.springboot.app.service.IPrestamoService;
 
+@Controller
+@SessionAttributes("prestamo")
 public class PrestamoController {
 
 	@Autowired
 	private IPrestamoService prestamoService;
 	
-	@GetMapping("/listar")
+	@GetMapping("/listarPrestamos")
 	public String listar(Model model) {
-		model.addAttribute("titulo", "Consultar Libros");
+		model.addAttribute("titulo", "Consultar Libros Prestados");
 		model.addAttribute("prestamos", prestamoService.findAll());
-		return "listar";
+		return "listarPrestamos";
 	}
 	
 	@GetMapping("/crear_prestamo")
