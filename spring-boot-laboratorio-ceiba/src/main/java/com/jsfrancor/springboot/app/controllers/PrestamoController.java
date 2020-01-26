@@ -7,11 +7,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.jsfrancor.springboot.app.models.entity.Libro;
 import com.jsfrancor.springboot.app.models.entity.Prestamo;
+import com.jsfrancor.springboot.app.service.ILibroService;
 import com.jsfrancor.springboot.app.service.IPrestamoService;
 
 @Controller
@@ -20,6 +24,7 @@ public class PrestamoController {
 
 	@Autowired
 	private IPrestamoService prestamoService;
+	private ILibroService libroService;
 	
 	@GetMapping("/listarPrestamos")
 	public String listar(Model model) {
@@ -28,10 +33,24 @@ public class PrestamoController {
 		return "listarPrestamos";
 	}
 	
-	@GetMapping("/crear_prestamo")
-	public String crear(Model model) {
+	@RequestMapping(value = "/crear_prestamo/{id}")
+	public String crear(@PathVariable(value = "di") Long id,  Model model, RedirectAttributes flash) {
+		
+		Libro libro = null;
+		
+		if(id>0) {
+			libro = libroService.findOne(id);
+			if(libro == null) {
+				flash.addFlashAttribute("error", "El ID del libro no existe en la base de datos");
+				return "redirect:/listar";
+			}
+		}else {
+			flash.addFlashAttribute("error", "El ID del libro no puede ser 0");
+			return "redirect:/listar";
+		}
 		
 		Prestamo prestamo = new Prestamo();
+		prestamo.setIsbnLibro(libro.getIsbn());
 		model.addAttribute("titulo", "Crear Prestamo");
 		model.addAttribute("prestamo", prestamo);
 		return "crear_prestamo";
