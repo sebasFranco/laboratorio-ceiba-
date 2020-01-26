@@ -52,11 +52,13 @@ public class Prestamo {
 	}
 
 	/*
-	 * Generar prestamo con validaciones Sale True si el libro es palindromo - False
-	 * si no lo es
+	 * Generar prestamo con validaciones 
+	 * 
 	 */
 	public void generarPrestamo(Long id, String nombreP) {
-
+		
+		prePersist();
+		
 		ILibroDao libroDAO = new iLibroDao();
 		Libro libro = libroDAO.findOne(id);
 
@@ -67,12 +69,12 @@ public class Prestamo {
 		}else {
 			fechaEntregaMaxima = null;
 		}
-
 	}
 
 	/*
-	 * Genera la fecha de entrega de los libros palindromos Entra Fecha de prestamos
-	 * - Date Sale Fecha de entrega - Date
+	 * Genera la fecha de entrega de los libros palindromos 
+	 * Entra Fecha de prestamos- Date 
+	 * Sale Fecha de entrega - Date
 	 */
 	private Date generarFechaEntrega() {
 
