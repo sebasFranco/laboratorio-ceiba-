@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.jsfrancor.springboot.app.dao.ILibroDao;
+import com.jsfrancor.springboot.app.excepciones.ExcepcionPrestamo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -55,17 +55,12 @@ public class Prestamo {
 	 * Generar prestamo con validaciones 
 	 * 
 	 */
-	public void generarPrestamo(Long id, String nombreP) {
-		
-		prePersist();
-		
-		ILibroDao libroDAO = new iLibroDao();
-		Libro libro = libroDAO.findOne(id);
+	public void generarPrestamo(Libro libro, String nombreP) {
 
-		if (validarPalindromo()) {
-			throw new fechaEntregaMaxima(EL_LIBRO_ES_PALINDROMO);
+		if (validarPalindromo(libro.getIsbn())) {
+			throw new ExcepcionPrestamo(EL_LIBRO_ES_PALINDROMO);
 		} else if(!sumaNumISBN(libro)){
-			fechaEntregaMaxima = generarFechaPrestamo();
+			fechaEntregaMaxima = generarFechaEntrega();
 		}else {
 			fechaEntregaMaxima = null;
 		}
@@ -97,10 +92,10 @@ public class Prestamo {
 	 * Sale True si el libro es palindromo
 	 * - False si no lo es
 	 */
-	private boolean validarPalindromo() {
+	private boolean validarPalindromo(String isbn) {
 
 		List<Character> list = new ArrayList<>();
-		for (char ch : this.ISBN.toCharArray()) {
+		for (char ch : isbn.toCharArray()) {
 			list.add(ch);
 		}
 
@@ -125,7 +120,7 @@ public class Prestamo {
 			list.add(ch);
 		}
 
-		int sumaISBN;
+		int sumaISBN=0;
 
 		for (int i = 0; i < list.size(); i++) {
 			int c = (int) list.get(i);
@@ -154,11 +149,11 @@ public class Prestamo {
 	}
 
 	public String getIsbnLibro() {
-		return isbn;
+		return isbnLibro;
 	}
 
 	public void setIsbnLibro(String isbnLibro) {
-		this.isbn = isbnLibro;
+		this.isbnLibro = isbnLibro;
 	}
 
 	public Date getFechaPrestamo() {
