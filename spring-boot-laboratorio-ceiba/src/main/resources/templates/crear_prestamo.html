@@ -8,31 +8,27 @@
     <div class="card bg-dark text-white">
         <div class="card-header" th:text="${titulo}"></div>
         <div class="card-body">
-            <div th:object="${libro}" th:remove="tag">
-                <ul th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
-                    <li th:each="err: ${#fields.errors('*')}" th:text=${err}></li>
-                </ul>
-            </div>
 
-            <form th:action="@{/crear_libro}" th:object="${libro}" method="post">
+            <form th:action="@{/crear_prestamo}" th:object="${prestamo}" method="post">
+                
                 <div class="form-group row">
-                    <label class="col-sm-6 col-form-label">ISBN</label>
-                    <label class="col-sm-6 col-form-label">Nombre del libro</label>
-                </div>
+					<label class="col-sm-2 col-form-label">ISBN</label>
+					<div class="col-sm-6">
+						<input readonly type="text" th:field="*{isbnLibro}" class="form-control" th:errorclass="'form-control alert-danger'"/>
+						<small class="form-text text-danger" th:if="${#fields.hasErrors('isbnLibro')}"  th:errors="*{isbnLibro}"></small>
+					</div>
+				</div>
+                
                 <div class="form-group row">
-                    <label class="col-sm-6 col-form-label" th:text="*{isbn}"></label>
-                    <label class="col-sm-6 col-form-label" th:text="*{nombre}"></label>
-                </div>
+					<label class="col-sm-2 col-form-label">Nombre Persona</label>
+					<div class="col-sm-6">
+						<input type="text" th:field="*{nombrePersona}" class="form-control" th:errorclass="'form-control alert-danger'"/>
+						<small class="form-text text-danger" th:if="${#fields.hasErrors('nombrePersona')}"  th:errors="*{nombrePersona}"></small>
+					</div>
+				</div>
+				
                 <div class="form-group row">
-
-                    <div class="col-sm-6">
-                        <a class="btn btn-danger" th:href="@{/eliminar/} + ${libro.id}" th:text="'Aceptar'" onclick="return confirm('Estas seguro que quieres eliminar?');"></a>
-                        <a class="btn btn-danger" th:href="@{/eliminar/} + ${libro.id}" th:text="'Aceptar'" onclick="return confirm('Estas seguro que quieres eliminar?');"></a>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <input type="submit" value="Crear Libro" class="btn btn-secondary"/>
+                    <input type="submit" value="Crear prestamo" class="btn btn-secondary"/>
                 </div>
             </form>
         </div>
