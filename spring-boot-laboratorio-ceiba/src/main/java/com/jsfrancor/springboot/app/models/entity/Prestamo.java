@@ -64,10 +64,7 @@ public class Prestamo implements Serializable{
 
 
 	public void generarPrestamo() {
-
-		if (validarPalindromoStream()) {
-			throw new ExcepcionPrestamo(EL_LIBRO_ES_PALINDROMO);
-		} else if(!sumaNumISBN()){
+		if(!sumaNumISBN()){
 			fechaEntregaMaxima = generarFechaEntrega();
 		}else {
 			fechaEntregaMaxima = null;
